@@ -1,0 +1,12 @@
+footer {
+  color: darkblue;
+  text-align: center;
+  margin-top: 330px;
+  background-color: gainsboro;
+}
+
+.social_list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
