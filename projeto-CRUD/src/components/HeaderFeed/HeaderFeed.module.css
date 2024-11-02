@@ -1,0 +1,23 @@
+header {
+  background-color: #001f3f;
+  height: 100px;
+  padding: 15px 20px;
+  cursor: pointer;
+}
+.logo {
+  margin-left: 20px;
+  color: #ead8b1;
+}
+
+.btnNewPost {
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 10px 0 0 20px;
+  padding: 4px;
+  background-color: #ead8b1;
+}
+
+.btnNewPost :hover {
+  transition: 0.2s;
+  background-color: #6a9ab0;
+}
