@@ -2,14 +2,43 @@ import React from "react";
 import Header from "../../components/Header";
 import * as styles from "./Post.module.css";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const validationPost = yup.object().shape({
+  titulo: yup
+    .string()
+    .required("O título dever ser preenchido")
+    .max(40, "Tamanho máx. 40 caracteres"),
+  descricao: yup
+    .string()
+    .required("A descrição dever ser preenchido")
+    .max(60, "Tamanho máx. 60 caracteres"),
+  conteudo: yup
+    .string()
+    .required("O conteúdo dever ser preenchido")
+    .max(100, "Tamanho máx. 100 caracteres"),
+});
 
 export default function Posts() {
-  const addPost = (data) => console.log(data);
+  let navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(validationPost) });
+
+  const addPost = (data) => {
+    axios
+      .post(`https://6722c03a2108960b9cc5770a.mockapi.io/posts`, data)
+      .then(() => {
+        navigate("/");
+        console.log("foi");
+      })
+      .catch(() => console.log("nao foi"));
+  };
 
   return (
     <div>
@@ -28,6 +57,7 @@ export default function Posts() {
                   id="titulo"
                   {...register("titulo")}
                 />
+                <p className={styles.errorMessage}>{errors.titulo?.message}</p>
               </div>
 
               <div className={styles.fields}>
@@ -38,6 +68,9 @@ export default function Posts() {
                   id="descricao"
                   {...register("descricao")}
                 />
+                <p className={styles.errorMessage}>
+                  {errors.descricao?.message}
+                </p>
               </div>
 
               <div className={styles.fields}>
@@ -49,9 +82,10 @@ export default function Posts() {
                   cols="30"
                   rows="10"
                   {...register("conteudo")}
-                >
-                  {" "}
-                </textarea>
+                ></textarea>
+                <p className={styles.errorMessage}>
+                  {errors.conteudo?.message}
+                </p>
               </div>
 
               <div className={styles.btnPost}>
